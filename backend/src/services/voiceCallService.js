@@ -33,33 +33,21 @@ function getIvrSpeechText(details) {
 }
 
 /**
- * Build recursive TwiML XML with Press-1-to-Repeat and Hangup
+ * Build clean TwiML XML with Press-1-to-Repeat and Hangup
  */
 function buildIvrUrl(details) {
   const speechText = getIvrSpeechText(details);
 
-  const repeatTwiml =
+  const cleanTwiml =
     `<Response>` +
-    `<Say voice="Polly.Aditi" language="en-IN">Repeating order details.</Say>` +
     `<Gather numDigits="1" timeout="8">` +
     `<Say voice="Polly.Aditi" language="en-IN">${speechText}</Say>` +
     `</Gather>` +
-    `<Say voice="Polly.Aditi" language="en-IN">Thank you. Ending call now. Goodbye.</Say>` +
+    `<Say voice="Polly.Aditi" language="en-IN">Thank you. Goodbye.</Say>` +
     `<Hangup/>` +
     `</Response>`;
 
-  const repeatUrl = `https://twimlets.com/echo?Twiml=${encodeURIComponent(repeatTwiml)}`;
-
-  const mainTwiml =
-    `<Response>` +
-    `<Gather numDigits="1" action="${repeatUrl}" method="POST" timeout="8">` +
-    `<Say voice="Polly.Aditi" language="en-IN">${speechText}</Say>` +
-    `</Gather>` +
-    `<Say voice="Polly.Aditi" language="en-IN">No input received. Ending call now. Goodbye.</Say>` +
-    `<Hangup/>` +
-    `</Response>`;
-
-  return `https://twimlets.com/echo?Twiml=${encodeURIComponent(mainTwiml)}`;
+  return `https://twimlets.com/echo?Twiml=${encodeURIComponent(cleanTwiml)}`;
 }
 
 /**
