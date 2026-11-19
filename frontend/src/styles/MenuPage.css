@@ -229,10 +229,11 @@
 .menu-page__cart-bar {
   position: fixed;
   bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 2rem);
+  left: 1rem;
+  right: 1rem;
+  margin: 0 auto;
   max-width: 440px;
+  width: auto;
   background: var(--btn-gold);
   color: #120e06;
   border-radius: var(--radius);
@@ -245,9 +246,19 @@
   z-index: 90;
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   border: 1.5px solid rgba(255, 235, 150, 0.6);
-  position: fixed;
   overflow: hidden;
-  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: cartBarSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cartBarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .menu-page__cart-bar::after {
@@ -262,13 +273,13 @@
 }
 
 .menu-page__cart-bar:hover {
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateY(-2px);
   background: var(--btn-gold-hover);
   box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7);
 }
 
 .menu-page__cart-bar:active {
-  transform: translateX(-50%) scale(0.98);
+  transform: scale(0.98);
 }
 
 .menu-page__cart-bar-left {
