@@ -6,16 +6,22 @@
  * Scans QR once -> Sends automated messages to any mobile number with ZERO manual clicks!
  */
 
-const {
-  default: makeWASocket,
-  useMultiFileAuthState,
-  DisconnectReason,
-  fetchLatestBaileysVersion,
-} = require('@whiskeysockets/baileys');
 const pino = require('pino');
 const path = require('path');
 const fs = require('fs');
 const qrcodeTerminal = require('qrcode-terminal');
+
+let makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion;
+
+async function loadBaileys() {
+  if (!makeWASocket) {
+    const baileys = await import('@whiskeysockets/baileys');
+    makeWASocket = baileys.default || baileys.makeWASocket;
+    useMultiFileAuthState = baileys.useMultiFileAuthState;
+    DisconnectReason = baileys.DisconnectReason;
+    fetchLatestBaileysVersion = baileys.fetchLatestBaileysVersion;
+  }
+}
 
 let sock = null;
 let isConnected = false;
@@ -36,6 +42,7 @@ async function initBaileysBot() {
   connecting = true;
 
   try {
+    await loadBaileys();
     const { state, saveCreds } = await useMultiFileAuthState(authFolder);
 
     sock = makeWASocket({

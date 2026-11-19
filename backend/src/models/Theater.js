@@ -31,6 +31,10 @@ const theaterSchema = new mongoose.Schema(
       min: [1, 'Must have at least 1 seat per row'],
       max: [100, 'Cannot exceed 100 seats per row'],
     },
+    seatingLayout: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
     settings: {
       printerIp: {
         type: String,

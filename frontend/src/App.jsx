@@ -73,14 +73,7 @@ export default function App() {
       </Route>
 
       {/* ── Customer Ordering Pages (Mobile-First Layout) ── */}
-      <Route
-        path="/"
-        element={
-          <CustomerLayout>
-            <OrderPage />
-          </CustomerLayout>
-        }
-      />
+      <Route path="/" element={<LoginPage />} />
       <Route
         path="/order"
         element={
