@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import Header from '../components/Header';
 import Loader from '../components/Loader';
+import PaytmUpiModal from '../components/PaytmUpiModal';
 import { useCart } from '../context/CartContext';
 import '../styles/PaymentPage.css';
 
@@ -26,8 +27,9 @@ export default function PaymentPage() {
   const [editSeat, setEditSeat] = useState(seat);
   const [seatModalError, setSeatModalError] = useState('');
 
-  // Test mode flag - true skips Razorpay gateway modal for instant order confirmation while testing
-  const SKIP_RAZORPAY = true;
+  // Paytm 0% Fee Instant UPI State
+  const [paytmData, setPaytmData] = useState(null);
+  const [showPaytmModal, setShowPaytmModal] = useState(false);
 
   const gst = Math.round(totalPrice * 0.05);
   const grandTotal = totalPrice + gst;
@@ -90,6 +92,11 @@ export default function PaymentPage() {
     await executePayment(finalScreen, finalSeat);
   };
 
+  const handlePaytmSuccess = (confirmedOrderId) => {
+    clearCart();
+    navigate(`/confirmation/${confirmedOrderId}`);
+  };
+
   const executePayment = async (targetScreen, targetSeat) => {
     setError('');
     setLoading(true);
@@ -123,96 +130,22 @@ export default function PaymentPage() {
       const { data: orderData } = await api.post('/api/orders', orderPayload);
       const orderId = orderData.order?._id || orderData.orderId || orderData._id;
 
-      // If skipping Razorpay (testing mode active), immediately complete the mock payment
-      if (SKIP_RAZORPAY) {
-        await api.post('/api/payment/verify', {
-          razorpay_order_id: `order_mock_${Date.now()}`,
-          razorpay_payment_id: `pay_mock_${Date.now()}`,
-          razorpay_signature: 'mock_test_signature',
-          orderId,
-        });
-
-        clearCart();
-        navigate(`/confirmation/${orderId}`);
-        return;
-      }
-
-      // Step 2: Create Razorpay order (for real gateway mode)
-      const { data: paymentData } = await api.post('/api/payment/create-order', {
-        amount: grandTotal,
-        orderId,
-      });
-
-      const razorpayOrderId = paymentData.razorpayOrderId || paymentData.id;
-
-      // Step 3: Open Razorpay checkout
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY || paymentData.keyId || 'rzp_test_Twmqf5XYueUoDD',
-        amount: grandTotal * 100, // paise
-        currency: 'INR',
-        name: 'Grandé Muthuram Multiplex',
-        description: `Screen ${targetScreen} · Seat ${targetSeat} Concessions`,
-        order_id: razorpayOrderId,
-        handler: async function (response) {
-          try {
-            await api.post('/api/payment/verify', {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              orderId,
-            });
-
-            clearCart();
-            navigate(`/confirmation/${orderId}`);
-          } catch (verifyErr) {
-            setError(verifyErr.message || 'Payment verification failed');
-            setStep('error');
-            setLoading(false);
-          }
-        },
-        prefill: {
-          name: finalName,
-          contact: phone,
-        },
-        theme: {
-          color: '#f59e0b',
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-            setStep('ready');
-          },
-        },
-      };
-
-      if (window.Razorpay) {
-        const rzp = new window.Razorpay(options);
-        rzp.on('payment.failed', function (response) {
-          setError(response.error.description || 'Payment failed');
-          setStep('error');
-          setLoading(false);
-        });
-        rzp.open();
-      } else {
-        // Fallback demo mock verification if offline / mock mode
-        await api.post('/api/payment/verify', {
-          razorpay_order_id: razorpayOrderId || 'mock_order',
-          razorpay_payment_id: 'mock_pay_' + Date.now(),
-          razorpay_signature: 'mock_signature',
-          orderId,
-        });
-        clearCart();
-        navigate(`/confirmation/${orderId}`);
-      }
-    } catch (err) {
-      setError(err.message || 'Unable to initiate payment');
-      setStep('error');
+      // Step 2: Initiate Paytm 0% Fee Instant UPI Payment & Dynamic QR
+      const { data: upiData } = await api.post('/api/payment/paytm-initiate', { orderId });
+      setPaytmData(upiData);
+      setShowPaytmModal(true);
       setLoading(false);
+      setStep('ready');
+    } catch (err) {
+      console.error('Payment initiation error:', err);
+      setError(err.response?.data?.error || err.message || 'Payment initiation failed.');
+      setLoading(false);
+      setStep('error');
     }
   };
 
   if (step === 'processing' && !error) {
-    return <Loader text={SKIP_RAZORPAY ? "Placing test order & notifying staff..." : "Connecting to secure gateway..."} />;
+    return <Loader text="Generating Paytm UPI QR & Payment Links..." />;
   }
 
   return (
@@ -223,8 +156,8 @@ export default function PaymentPage() {
         <h2 className="payment-page__title">Secure Checkout</h2>
 
         <div style={{
-          background: 'linear-gradient(135deg, rgba(243, 207, 122, 0.1) 0%, rgba(16, 185, 129, 0.08) 100%)',
-          border: '1px solid rgba(243, 207, 122, 0.35)',
+          background: 'linear-gradient(135deg, rgba(243, 207, 122, 0.12) 0%, rgba(16, 185, 129, 0.1) 100%)',
+          border: '1px solid rgba(243, 207, 122, 0.4)',
           borderRadius: 'var(--radius-sm)',
           padding: '0.85rem 1rem',
           marginBottom: '1.25rem',
@@ -238,7 +171,7 @@ export default function PaymentPage() {
         }}>
           <span style={{ fontSize: '1.25rem' }}>⚡</span>
           <span>
-            <strong style={{ color: '#ffffff' }}>Fast-Track Test Mode Active:</strong> Payment gateway is bypassed for instant testing. Clicking Pay immediately confirms and sends your order to the kitchen!
+            <strong style={{ color: '#ffffff' }}>0% Gateway Fee Instant UPI:</strong> Dynamic QR &amp; Tap-to-Pay. Millisecond bank webhook verification with zero deductions!
           </span>
         </div>
 
@@ -386,7 +319,7 @@ export default function PaymentPage() {
                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
                 <line x1="1" y1="10" x2="23" y2="10" />
               </svg>
-              <span>{SKIP_RAZORPAY ? `Confirm & Pay ₹${grandTotal} (Test Mode)` : `Pay ₹${grandTotal} via UPI / Card`}</span>
+              <span>Pay ₹{grandTotal} via Paytm / UPI (0% Fee)</span>
             </>
           )}
         </button>
@@ -398,7 +331,7 @@ export default function PaymentPage() {
         )}
 
         <p className="payment-page__secure-note">
-          {SKIP_RAZORPAY ? 'Testing Mode Active · Instant Order Dispatch' : 'Secured 256-bit Encrypted Checkout · Razorpay Certified'}
+          ⚡ 0% Gateway Deductions · Millisecond Bank Settlement · Paytm Business UPI
         </p>
 
         {/* ── "PLEASE ENSURE YOUR SEAT" POPUP MODAL ── */}
@@ -591,6 +524,14 @@ export default function PaymentPage() {
               </div>
             </div>
           </div>
+        )}
+        {/* ── PAYTM 0% FEE INSTANT UPI MODAL ── */}
+        {showPaytmModal && paytmData && (
+          <PaytmUpiModal
+            paytmData={paytmData}
+            onSuccess={handlePaytmSuccess}
+            onClose={() => setShowPaytmModal(false)}
+          />
         )}
       </div>
     </div>

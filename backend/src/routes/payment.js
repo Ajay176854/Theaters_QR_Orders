@@ -1,11 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { createRazorpayOrder, verifyPayment } = require('../controllers/paymentController');
+const {
+  createRazorpayOrder,
+  verifyPayment,
+  initiatePaytmUPI,
+  handlePaytmWebhook,
+  getPaymentStatus,
+  simulatePaytmSuccess,
+} = require('../controllers/paymentController');
 
-// POST /api/payment/create-order - public (customer initiates payment)
+// Razorpay routes
 router.post('/create-order', createRazorpayOrder);
-
-// POST /api/payment/verify - public (called after Razorpay checkout)
 router.post('/verify', verifyPayment);
+
+// ⚡ Paytm Instant Free UPI Routes
+router.post('/paytm-initiate', initiatePaytmUPI);
+router.post('/paytm-webhook', handlePaytmWebhook);
+router.get('/status/:id', getPaymentStatus);
+router.post('/paytm-simulate/:id', simulatePaytmSuccess);
 
 module.exports = router;
