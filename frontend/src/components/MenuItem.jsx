@@ -40,7 +40,9 @@ export default function MenuItem({ item }) {
           {item.description && (
             <p className="menu-item__desc">{item.description}</p>
           )}
-          <p className="menu-item__price">₹{item.price}</p>
+          <p className="menu-item__price">
+            ₹{item.price} <span style={{ fontSize: '0.68rem', color: '#8492a6', fontWeight: 600, letterSpacing: '0.02em' }}>incl. taxes</span>
+          </p>
         </div>
 
         <div className="menu-item__actions">

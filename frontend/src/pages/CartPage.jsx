@@ -96,13 +96,13 @@ export default function CartPage() {
                 <span className="cart-page__free">COMPLIMENTARY</span>
               </div>
               <div className="cart-page__summary-row">
-                <span>GST (5%)</span>
-                <span>₹{Math.round(totalPrice * 0.05)}</span>
+                <span>Taxes &amp; GST</span>
+                <span style={{ color: '#34d399', fontWeight: 800, fontSize: '0.82rem' }}>INCLUDED IN PRICE</span>
               </div>
               <div className="cart-page__summary-divider" />
               <div className="cart-page__summary-row total">
                 <span>Total Payable</span>
-                <span>₹{totalPrice + Math.round(totalPrice * 0.05)}</span>
+                <span>₹{totalPrice}</span>
               </div>
             </div>
 

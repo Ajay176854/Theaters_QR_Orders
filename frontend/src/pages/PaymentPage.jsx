@@ -31,8 +31,8 @@ export default function PaymentPage() {
   const [paytmData, setPaytmData] = useState(null);
   const [showPaytmModal, setShowPaytmModal] = useState(false);
 
-  const gst = Math.round(totalPrice * 0.05);
-  const grandTotal = totalPrice + gst;
+  const gst = 0; // Inclusive in product price
+  const grandTotal = totalPrice;
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -201,8 +201,8 @@ export default function PaymentPage() {
               <span>₹{totalPrice}</span>
             </div>
             <div className="payment-page__total-row">
-              <span>GST (5%)</span>
-              <span>₹{gst}</span>
+              <span>Taxes &amp; GST</span>
+              <span style={{ color: '#34d399', fontWeight: 800 }}>Included</span>
             </div>
             <div className="payment-page__total-divider" />
             <div className="payment-page__total-row grand">

@@ -77,7 +77,7 @@ const createOrder = async (req, res, next) => {
       totalAmount += unitPrice * qty;
     }
 
-    const calculatedTotal = req.body.total || (totalAmount + Math.round(totalAmount * 0.05));
+    const calculatedTotal = req.body.total || totalAmount;
     const mockShortId = `GMM-${Date.now().toString().slice(-5)}`;
     const mockId = `order_${Date.now()}`;
 
@@ -96,7 +96,7 @@ const createOrder = async (req, res, next) => {
         customerPhone,
         items: orderItems,
         subtotal: totalAmount,
-        gst: Math.round(totalAmount * 0.05),
+        gst: 0,
         totalAmount: calculatedTotal,
         total: calculatedTotal,
         status: 'confirmed',
@@ -174,7 +174,7 @@ const createOrder = async (req, res, next) => {
         customerPhone,
         items: orderItems,
         subtotal: totalAmount,
-        gst: Math.round(totalAmount * 0.05),
+        gst: 0,
         totalAmount: calculatedTotal,
         total: calculatedTotal,
         status: 'confirmed',
