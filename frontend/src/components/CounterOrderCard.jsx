@@ -34,8 +34,8 @@ export default function CounterOrderCard({ order, isNew, onStatusChange, onEscal
   };
 
   const actionLabels = {
-    confirmed: 'Mark as Ready',
-    preparing: 'Mark as Ready',
+    confirmed: 'Pick the Order',
+    preparing: 'Pick the Order',
     ready: 'Complete Delivery',
   };
 
