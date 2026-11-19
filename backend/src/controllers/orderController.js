@@ -5,6 +5,7 @@ const Theater = require('../models/Theater');
 const { sendOrderSMS, getWhatsAppBillLink } = require('../services/smsService');
 const { sendAutomatedWhatsApp } = require('../services/whatsappService');
 const { cancelOngoingVoiceCall } = require('../services/voiceCallService');
+const { orderLastStageMap } = require('../services/escalationService');
 
 // In-memory persistent order store for local dev / offline / test mode
 const inMemoryOrders = new Map();
@@ -406,6 +407,11 @@ const updateOrderStatus = async (req, res, next) => {
       const orderToken = targetOrder?.orderId || req.params.id;
       cancelOngoingVoiceCall(orderToken);
       if (targetOrder?._id) cancelOngoingVoiceCall(targetOrder._id.toString());
+      if (orderLastStageMap) {
+        orderLastStageMap.delete(String(req.params.id));
+        orderLastStageMap.delete(String(orderToken).toUpperCase());
+        if (targetOrder?._id) orderLastStageMap.delete(targetOrder._id.toString());
+      }
     }
 
     res.json({

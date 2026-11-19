@@ -96,6 +96,17 @@ const orderSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    isEscalated: {
+      type: Boolean,
+      default: false,
+    },
+    lastEscalatedStage: {
+      type: Number,
+      default: 0,
+    },
+    escalatedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
