@@ -1,0 +1,334 @@
+/* ── Luxury Obsidian & Champagne Gold Cart Page ── */
+.cart-page {
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+  background: var(--bg-primary);
+  max-width: 480px;
+  margin: 0 auto;
+  overflow-y: visible;
+}
+
+.cart-page__content {
+  padding: 1.25rem 1rem;
+}
+
+.cart-page__header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.cart-page__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cart-page__clear-btn {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-xs);
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.cart-page__clear-btn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ── Empty State ── */
+.cart-page__empty {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px dashed var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cart-page__empty-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.cart-page__empty h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.cart-page__empty p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+.cart-page__browse-btn {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1.85rem;
+  background: var(--btn-gold);
+  color: #120e06;
+  font-weight: 900;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(243, 207, 122, 0.35);
+  transition: transform 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.cart-page__browse-btn:hover {
+  background: var(--btn-gold-hover);
+  transform: translateY(-1px);
+}
+
+/* ── Items List ── */
+.cart-page__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+/* ── Order Summary / Order Breakdown Card ── */
+.cart-page__summary {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2.5px solid rgba(243, 207, 122, 0.85);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.25rem;
+  margin-bottom: 1.35rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(243, 207, 122, 0.05);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.cart-page__summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fae4a8, transparent);
+}
+
+.cart-page__summary-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #fae4a8;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-bottom: 0.65rem;
+}
+
+.cart-page__summary-title::after {
+  content: 'CONCESSION BILL';
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #fae4a8;
+  background: rgba(243, 207, 122, 0.12);
+  padding: 0.22rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(243, 207, 122, 0.28);
+}
+
+.cart-page__summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  margin-bottom: 0.7rem;
+}
+
+.cart-page__summary-row span:last-child {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.cart-page__free {
+  color: #34d399 !important;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.22rem 0.65rem;
+  border-radius: 6px;
+  font-weight: 900 !important;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.22);
+}
+
+.cart-page__summary-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.9rem 0;
+}
+
+.cart-page__summary-row.total {
+  background: linear-gradient(135deg, rgba(243, 207, 122, 0.16) 0%, rgba(229, 184, 92, 0.05) 100%);
+  border: 1px solid rgba(243, 207, 122, 0.45);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.15rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.cart-page__summary-row.total span:last-child {
+  color: #fae4a8;
+  font-size: 1.45rem;
+  text-shadow: 0 0 16px rgba(243, 207, 122, 0.6);
+  letter-spacing: -0.01em;
+}
+
+/* ── Delivery Info Card ── */
+.cart-page__delivery-info {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  background: linear-gradient(145deg, rgba(23, 27, 38, 0.95) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 1.05rem 1.25rem;
+  margin-bottom: 1.35rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  animation: fadeInUp 0.45s ease both;
+}
+
+.cart-page__delivery-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(243, 207, 122, 0.12);
+  border: 1.5px solid rgba(243, 207, 122, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3cf7a;
+  flex-shrink: 0;
+  box-shadow: 0 0 14px rgba(243, 207, 122, 0.25);
+}
+
+.cart-page__delivery-label {
+  font-size: 0.72rem;
+  color: #8492a6;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.cart-page__delivery-seat {
+  font-size: 0.98rem;
+  font-weight: 900;
+  color: #fae4a8;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 10px rgba(243, 207, 122, 0.35);
+}
+
+/* ── Actions ── */
+.cart-page__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: fadeInUp 0.5s ease both;
+}
+
+.cart-page__add-more-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 800;
+  border-radius: var(--radius-xs);
+  transition: var(--transition-fast);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+}
+
+.cart-page__add-more-btn:hover {
+  border-color: rgba(243, 207, 122, 0.5);
+  color: #fae4a8;
+  background: rgba(243, 207, 122, 0.08);
+  box-shadow: 0 0 15px rgba(243, 207, 122, 0.15);
+}
+
+.cart-page__checkout-btn {
+  width: 100%;
+  padding: 1.15rem;
+  background: var(--btn-gold);
+  color: #120e06;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  border: 1.5px solid rgba(255, 235, 150, 0.6);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow: 0 6px 24px rgba(243, 207, 122, 0.35), 0 0 15px rgba(212, 175, 55, 0.2);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.cart-page__checkout-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  animation: payShine 2.8s infinite;
+}
+
+.cart-page__checkout-btn:hover:not(:disabled) {
+  background: var(--btn-gold-hover);
+  box-shadow: 0 8px 30px rgba(243, 207, 122, 0.5), 0 0 20px rgba(255, 216, 77, 0.35);
+  transform: translateY(-2px);
+}
+
+.cart-page__checkout-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}

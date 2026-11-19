@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "js,mjs,cjs",
+  "ignore": [
+    "database/baileys_auth_info/**",
+    ".baileys_auth_info/**",
+    "baileys_auth_info/**",
+    "node_modules/**",
+    "*.json"
+  ],
+  "delay": 1000
+}
+

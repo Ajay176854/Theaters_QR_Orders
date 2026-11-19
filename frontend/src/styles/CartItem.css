@@ -1,0 +1,153 @@
+/* ── Luxury Obsidian & Champagne Gold Cart Item ── */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.05rem 1.15rem;
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.95) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s, box-shadow 0.2s;
+  animation: fadeInUp 0.35s ease both;
+}
+
+.cart-item:hover {
+  border-color: rgba(243, 207, 122, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), 0 0 16px rgba(243, 207, 122, 0.08);
+  transform: translateY(-1px);
+}
+
+.cart-item__left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.cart-item__veg-badge {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cart-item__veg-badge.veg {
+  border-color: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.35);
+}
+
+.cart-item__veg-badge.veg .cart-item__dot {
+  width: 6.5px;
+  height: 6.5px;
+  background: #22c55e;
+  border-radius: 50%;
+}
+
+.cart-item__veg-badge.nonveg {
+  border-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.35);
+}
+
+.cart-item__veg-badge.nonveg .cart-item__dot {
+  width: 6.5px;
+  height: 6.5px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+.cart-item__name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.cart-item__unit-price {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-top: 0.15rem;
+  font-weight: 600;
+}
+
+.cart-item__right {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+.cart-item__qty-control {
+  display: flex;
+  align-items: center;
+  background: #0b0d14;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.cart-item__qty-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #fae4a8;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.cart-item__qty-btn:hover {
+  background: rgba(243, 207, 122, 0.15);
+  color: #ffffff;
+}
+
+.cart-item__qty-btn:active {
+  transform: scale(0.9);
+}
+
+.cart-item__qty-value {
+  width: 24px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cart-item__price {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #fae4a8;
+  min-width: 52px;
+  text-align: right;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 10px rgba(243, 207, 122, 0.25);
+}
+
+.cart-item__remove-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xs);
+  transition: color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.cart-item__remove-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  transform: scale(1.1);
+}

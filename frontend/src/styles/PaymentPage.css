@@ -1,0 +1,334 @@
+/* ── Luxury Obsidian & Champagne Gold Payment Page ── */
+.payment-page {
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+  background: var(--bg-primary);
+  max-width: 480px;
+  margin: 0 auto;
+  overflow-y: visible;
+}
+
+.payment-page__content {
+  padding: 1.25rem 1rem;
+}
+
+.payment-page__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.payment-page__title::after {
+  content: '🔒 256-BIT ENCRYPTED';
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #fae4a8;
+  background: rgba(243, 207, 122, 0.12);
+  border: 1px solid rgba(243, 207, 122, 0.28);
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.08em;
+}
+
+/* ── Overview Card (VIP Checkout Summary) ── */
+.payment-page__overview {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2.5px solid rgba(243, 207, 122, 0.85);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(243, 207, 122, 0.05);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.35s ease both;
+}
+
+.payment-page__overview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fae4a8, transparent);
+}
+
+.payment-page__overview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.payment-page__tag {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #fae4a8;
+  background: rgba(243, 207, 122, 0.12);
+  border: 1px solid rgba(243, 207, 122, 0.28);
+  padding: 0.22rem 0.65rem;
+  border-radius: 20px;
+}
+
+.payment-page__overview-header h3 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.payment-page__items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.payment-page__item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.payment-page__item-name {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.payment-page__item-price {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.payment-page__totals {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 0.85rem;
+}
+
+.payment-page__total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.payment-page__total-row span:last-child {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.payment-page__total-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.75rem 0;
+}
+
+/* ── Highlighted Grand Total Luminous Callout Strip ── */
+.payment-page__total-row.grand {
+  background: linear-gradient(135deg, rgba(243, 207, 122, 0.16) 0%, rgba(229, 184, 92, 0.05) 100%);
+  border: 1px solid rgba(243, 207, 122, 0.45);
+  border-radius: var(--radius-sm);
+  padding: 0.95rem 1.15rem;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.payment-page__total-row.grand span:last-child {
+  color: #fae4a8;
+  font-size: 1.45rem;
+  text-shadow: 0 0 16px rgba(243, 207, 122, 0.6);
+  letter-spacing: -0.01em;
+}
+
+/* ── Delivery Info (Cinema Seat Tag) ── */
+.payment-page__delivery {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: linear-gradient(145deg, rgba(23, 27, 38, 0.95) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: #fae4a8;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.payment-page__delivery svg {
+  color: #f3cf7a;
+  flex-shrink: 0;
+}
+
+/* ── Customer Info & Phone Input Cards ── */
+.payment-page__phone-section {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  animation: fadeInUp 0.45s ease both;
+}
+
+.payment-page__phone-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #fae4a8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.65rem;
+}
+
+.payment-page__phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #0b0d14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.payment-page__phone-input-wrapper:focus-within {
+  border-color: #f3cf7a;
+  box-shadow: 0 0 14px rgba(243, 207, 122, 0.25);
+}
+
+.payment-page__phone-prefix {
+  padding: 0.75rem 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fae4a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-page__phone-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 0.85rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  outline: none;
+}
+
+.payment-page__phone-input::placeholder {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.payment-page__phone-hint {
+  font-size: 0.74rem;
+  color: #8492a6;
+  margin-top: 0.5rem;
+  line-height: 1.35;
+}
+
+/* ── Error Banner ── */
+.payment-page__error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: var(--radius-xs);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.payment-page__error p {
+  color: #fca5a5;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ── High-Impact Pay Button ── */
+.payment-page__pay-btn {
+  width: 100%;
+  padding: 1.2rem;
+  background: var(--btn-gold);
+  color: #120e06;
+  border: 1.5px solid rgba(255, 235, 150, 0.6);
+  border-radius: var(--radius-xs);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  box-shadow: 0 6px 24px rgba(243, 207, 122, 0.35), 0 0 15px rgba(212, 175, 55, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-page__pay-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  animation: payShine 2.8s infinite;
+}
+
+@keyframes payShine {
+  0% { left: -100%; }
+  40% { left: 100%; }
+  100% { left: 100%; }
+}
+
+.payment-page__pay-btn:hover:not(:disabled) {
+  background: var(--btn-gold-hover);
+  box-shadow: 0 8px 30px rgba(243, 207, 122, 0.5), 0 0 20px rgba(255, 216, 77, 0.35);
+  transform: translateY(-2px);
+}
+
+.payment-page__pay-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.payment-page__pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.payment-page__secure-note {
+  text-align: center;
+  font-size: 0.74rem;
+  color: #8492a6;
+  margin-top: 1rem;
+  letter-spacing: 0.03em;
+}

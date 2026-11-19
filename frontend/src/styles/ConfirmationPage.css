@@ -1,0 +1,285 @@
+/* ── Luxury Obsidian & Champagne Gold Confirmation Page ── */
+.confirmation-page {
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem 1rem 6rem;
+  background: var(--bg-primary);
+  display: flex;
+  justify-content: center;
+  overflow-y: visible;
+}
+
+.confirmation-page__content {
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Success Header ── */
+.confirmation-page__success-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-page__checkmark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+}
+
+.confirmation-page__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2.5;
+  stroke-miterlimit: 10;
+  stroke: #fae4a8;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.confirmation-page__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 3;
+  stroke: #fae4a8;
+  animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.confirmation-page__title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.confirmation-page__subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ── Order ID Card (VIP Cinema Ticket Header) ── */
+.confirmation-page__order-id-card {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2.5px solid rgba(243, 207, 122, 0.85);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.35rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(243, 207, 122, 0.05);
+}
+
+.confirmation-page__order-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fae4a8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.confirmation-page__order-value {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #fae4a8;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, rgba(243, 207, 122, 0.16) 0%, rgba(229, 184, 92, 0.05) 100%);
+  border: 1px solid rgba(243, 207, 122, 0.45);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-xs);
+  text-shadow: 0 0 12px rgba(243, 207, 122, 0.45);
+}
+
+/* ── Status Section ── */
+.confirmation-page__status-section {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.25rem;
+  margin-bottom: 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.confirmation-page__status-section h3 {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #fae4a8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Items Summary (Digital Cinema Receipt) ── */
+.confirmation-page__items-card {
+  background: linear-gradient(165deg, rgba(23, 27, 38, 0.96) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.25rem;
+  margin-bottom: 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.confirmation-page__items-card h3 {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #fae4a8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-bottom: 0.5rem;
+}
+
+.confirmation-page__items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.confirmation-page__item-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.confirmation-page__item-name {
+  color: var(--text-secondary);
+}
+
+.confirmation-page__item-price {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.confirmation-page__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.75rem 0;
+}
+
+.confirmation-page__total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.confirmation-page__total-line span:last-child {
+  color: #fae4a8;
+  font-size: 1.25rem;
+  text-shadow: 0 0 12px rgba(243, 207, 122, 0.4);
+}
+
+/* ── Delivery Info ── */
+.confirmation-page__delivery-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: linear-gradient(145deg, rgba(23, 27, 38, 0.95) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 0.95rem 1.1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.confirmation-page__delivery-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(243, 207, 122, 0.12);
+  border: 1.5px solid rgba(243, 207, 122, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3cf7a;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(243, 207, 122, 0.25);
+}
+
+.confirmation-page__delivery-label {
+  font-size: 0.7rem;
+  color: #8492a6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.confirmation-page__delivery-seat {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #fae4a8;
+  letter-spacing: 0.04em;
+}
+
+/* ── Actions ── */
+.confirmation-page__actions {
+  margin-bottom: 1rem;
+}
+
+.confirmation-page__new-order-btn {
+  width: 100%;
+  padding: 1.05rem;
+  background: var(--btn-gold);
+  border: 1px solid rgba(255, 235, 150, 0.5);
+  color: #120e06;
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(243, 207, 122, 0.35);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.confirmation-page__new-order-btn:hover {
+  background: var(--btn-gold-hover);
+  box-shadow: 0 8px 26px rgba(243, 207, 122, 0.5);
+  transform: translateY(-1px);
+}
+
+.confirmation-page__help-text {
+  text-align: center;
+  font-size: 0.74rem;
+  color: #8492a6;
+  line-height: 1.4;
+}
+
+.confirmation-page__error {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.confirmation-page__error-badge {
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #fae4a8;
+  border: 1px solid rgba(243, 207, 122, 0.4);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}

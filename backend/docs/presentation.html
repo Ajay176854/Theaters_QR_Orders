@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PVP Multiplex - Smart Concessions Proposal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #1e293b;
+      line-height: 1.5;
+      font-size: 13px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      page-break-after: always;
+      position: relative;
+      height: 100%;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      background: linear-gradient(135deg, #e11d48, #9f1239);
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .brand-text h1 {
+      font-size: 16px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      font-weight: 700;
+      color: #e11d48;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 5px 10px;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: #ffffff;
+      padding: 22px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-banner p {
+      font-size: 12px;
+      color: #cbd5e1;
+      max-width: 90%;
+      line-height: 1.5;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: rgba(225, 29, 72, 0.25);
+      border: 1px solid #e11d48;
+      color: #fda4af;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 14px;
+      background: #e11d48;
+      border-radius: 2px;
+    }
+
+    /* 3 Simple Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .step-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #e11d48;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .step-card h3 {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .step-card p {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* Showcase Products */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .food-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 95px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .food-info {
+      padding: 10px;
+    }
+
+    .food-info h4 {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .food-info p {
+      font-size: 10px;
+      color: #64748b;
+      line-height: 1.3;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      margin-bottom: 22px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      text-align: left;
+      padding: 8px 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .highlight-cell {
+      font-weight: 800;
+      color: #e11d48;
+    }
+
+    /* Bottom Ticket and ROI Box */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .ticket-box {
+      background: #fafaf9;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10.5px;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+
+    .ticket-title {
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .ticket-divider {
+      border-bottom: 1px dashed #94a3b8;
+      margin: 6px 0;
+    }
+
+    .roi-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .roi-stat {
+      font-size: 26px;
+      font-weight: 900;
+      color: #16a34a;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .roi-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #15803d;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .roi-desc {
+      font-size: 10.5px;
+      color: #166534;
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 16px;
+    }
+
+    .footer strong {
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-badge">
+        <div class="logo-box">PVP</div>
+        <div class="brand-text">
+          <h1>PVP Multiplex</h1>
+          <p>Luxury Cinema Dining Platform</p>
+        </div>
+      </div>
+      <div class="header-tag">Executive Proposal</div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="hero-pill">The Big Business Opportunity</div>
+      <h2>Turn Every Seat into a Concession Counter</h2>
+      <p>During the 10-minute intermission, over 50% of your audience refuses to stand in long counter queues to avoid missing the film. With Smart QR ordering, guests order from their armrest in 10 seconds and have fresh snacks delivered directly to their seat.</p>
+    </div>
+
+    <!-- 3 Simple Steps -->
+    <div class="section-title">How It Works (3 Effortless Steps)</div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Guest Scans Seat QR</h3>
+        <p>Guest points phone camera at the armrest sticker. Instant menu loads in Chrome/Safari &mdash; <strong>No app download required</strong>.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Selects &amp; Pays via UPI</h3>
+        <p>Guest selects snacks and pays in 10 seconds with Google Pay, PhonePe, Paytm, or Card with instant verification.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Direct Seat Delivery</h3>
+        <p>Kitchen screen beeps and prints a ticket. Concession staff walks the fresh tray directly to <strong>Screen 1 &middot; Seat B12</strong>!</p>
+      </div>
+    </div>
+
+    <!-- Concession Visual Showcase -->
+    <div class="section-title">High-Margin Concession Menu Showcase</div>
+    <div class="showcase-grid">
+      <div class="food-card">
+        <img src="https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=400&q=80" alt="Butter Popcorn">
+        <div class="food-info">
+          <h4>Butter Popcorn</h4>
+          <p>Warm gourmet cinema butter kernels.</p>
+        </div>
+      </div>
+
+      <div class="food-card">
+        <img src="https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=400&q=80" alt="Cheese Nachos">
+        <div class="food-info">
+          <h4>Loaded Nachos</h4>
+          <p>Crispy tortilla chips with jalapeño cheese.</p>
+        </div>
+      </div>
+
+      <div class="food-card">
+        <img src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&q=80" alt="Fountain Soda">
+        <div class="food-info">
+          <h4>Fountain Soda</h4>
+          <p>Ice-chilled 750ml fountain refreshments.</p>
+        </div>
+      </div>
+
+      <div class="food-card">
+        <img src="https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?w=400&q=80" alt="Combos">
+        <div class="food-info">
+          <h4>Blockbuster Combos</h4>
+          <p>Popcorn + 2 drinks high-spend bundles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Comparison Table -->
+    <div class="section-title">Traditional Counter vs. Smart In-Seat QR</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Commercial Feature</th>
+            <th>Traditional Snack Counter</th>
+            <th>PVP Multiplex Smart QR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sales Time Window</strong></td>
+            <td>Only 10-minute interval</td>
+            <td class="highlight-cell">Entire show (Pre-show, Runtime &amp; Interval)</td>
+          </tr>
+          <tr>
+            <td><strong>Average Order Spend (AOV)</strong></td>
+            <td>₹180 &ndash; ₹220 per bill</td>
+            <td class="highlight-cell">₹290 &ndash; ₹360 (+40% via visual combos)</td>
+          </tr>
+          <tr>
+            <td><strong>Customer Friction</strong></td>
+            <td>Long queue, missed movie scenes</td>
+            <td class="highlight-cell">Zero lines, 100% seat comfort &amp; VIP feel</td>
+          </tr>
+          <tr>
+            <td><strong>App Installation Needed?</strong></td>
+            <td>Yes (90% drop-off rate)</td>
+            <td class="highlight-cell">No App Required (Instant web browser)</td>
+          </tr>
+          <tr>
+            <td><strong>Counter Staff Chaos</strong></td>
+            <td>Extreme rush for 12 mins, then idle</td>
+            <td class="highlight-cell">Organized, auto-printed digital queue</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bottom Ticket & ROI Box -->
+    <div class="two-col">
+      <div class="ticket-box">
+        <div class="ticket-title">PVP MULTIPLEX<br>KITCHEN ORDER TICKET (KOT)</div>
+        <div class="ticket-divider"></div>
+        <div>ORDER: #PVP-82910 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SCREEN 1 &middot; SEAT B12</div>
+        <div class="ticket-divider"></div>
+        <div>1x Butter Popcorn (Large) ........ ₹290</div>
+        <div>2x Fountain Pepsi (750ml) ........ ₹320</div>
+        <div>1x Cheese Loaded Nachos ......... ₹240</div>
+        <div class="ticket-divider"></div>
+        <div><strong>TOTAL PAID (UPI - GPAY): &nbsp;&nbsp;&nbsp; ₹850</strong></div>
+        <div class="ticket-divider"></div>
+        <div style="font-size: 9.5px; text-align: center;">STATUS: READY FOR SEAT DELIVERY</div>
+      </div>
+
+      <div class="roi-box">
+        <div class="roi-stat">+40% Revenue</div>
+        <div class="roi-label">Immediate Concession Growth</div>
+        <div class="roi-desc">
+          By opening orders beyond the 10-minute intermission and eliminating queue drop-offs, multiplexes consistently capture 35% to 45% additional food &amp; beverage turnover within the first 30 days.
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div><strong>PVP Multiplex</strong> &middot; Next-Gen Concession Operations</div>
+      <div>Turnkey 48-Hour Implementation &middot; Zero Operational Downtime</div>
+    </div>
+  </div>
+
+</body>
+</html>
+
