@@ -21,10 +21,10 @@ export default function OrderPage() {
   const hostBase =
     typeof window !== 'undefined' &&
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? `http://10.130.230.48:${window.location.port || 5173}`
+      ? `http://10.190.5.66:${window.location.port || 5173}`
       : typeof window !== 'undefined'
       ? window.location.origin
-      : 'http://10.130.230.48:5173';
+      : 'http://10.190.5.66:5173';
 
   const qrTargetUrl = `${hostBase}/${theaterId}?screen=${screen}&seat=${seat}`;
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=8&data=${encodeURIComponent(qrTargetUrl)}`;

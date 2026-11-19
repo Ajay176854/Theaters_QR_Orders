@@ -1,46 +1,52 @@
 import { useState, useEffect } from 'react';
+import { AUDITORIUM_SEATING_LAYOUT, getAllActiveSeatIds } from '../config/auditoriumLayout';
 
 export default function AdminQRPage() {
   const [screen, setScreen] = useState(1);
-  const [rows, setRows] = useState(3); // A to C
-  const [seatsPerRow, setSeatsPerRow] = useState(6);
+  const [filterRow, setFilterRow] = useState('ALL');
   const [qrs, setQrs] = useState([]);
   const [generating, setGenerating] = useState(false);
 
-  // Auto-detect whether we are on localhost and provide the Wi-Fi LAN IP for mobile scan
+  // Detected host for mobile phone QR scanning over local Wi-Fi
+  // Current Wi-Fi IP is 10.190.5.66
   const detectedHost =
     window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? `http://10.130.230.48:${window.location.port || 5173}`
+      ? `http://10.190.5.66:${window.location.port || 5173}`
       : window.location.origin;
 
   const [scanHost, setScanHost] = useState(detectedHost);
-
   const theaterId = 'demo-theater';
 
-  const generateQRsForHost = (hostBase, scNum, rowCount, colCount) => {
-    setGenerating(true);
-    const rowLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').slice(0, rowCount);
-    const generated = [];
+  const allActiveSeats = getAllActiveSeatIds(); // ['A1', 'A2', ... 'M16']
 
-    for (const r of rowLetters) {
-      for (let s = 1; s <= colCount; s++) {
-        const seatLabel = `${r}${s}`;
-        const orderUrl = `${hostBase}/${theaterId}?screen=${scNum}&seat=${seatLabel}`;
-        const dataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(orderUrl)}`;
-        generated.push({ screen: scNum, seat: seatLabel, orderUrl, dataUrl });
-      }
+  const generateQRs = (hostBase, scNum, rowFilter = 'ALL') => {
+    setGenerating(true);
+    let targetSeats = allActiveSeats;
+
+    if (rowFilter !== 'ALL') {
+      targetSeats = targetSeats.filter((seat) => seat.startsWith(rowFilter));
     }
+
+    const generated = targetSeats.map((seatLabel) => {
+      const orderUrl = `${hostBase}/${theaterId}?screen=${scNum}&seat=${seatLabel}`;
+      // On browser preview, always route relative to the current browser window origin (e.g. http://localhost:5173)
+      const menuUrl = `/${theaterId}/menu?screen=${scNum}&seat=${seatLabel}`;
+      const dataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(
+        orderUrl
+      )}`;
+      return { screen: scNum, seat: seatLabel, orderUrl, menuUrl, dataUrl };
+    });
 
     setQrs(generated);
     setGenerating(false);
   };
 
   useEffect(() => {
-    generateQRsForHost(scanHost, screen, rows, seatsPerRow);
+    generateQRs(scanHost, screen, filterRow);
   }, []);
 
   const handleGenerate = () => {
-    generateQRsForHost(scanHost, screen, rows, seatsPerRow);
+    generateQRs(scanHost, screen, filterRow);
   };
 
   const handlePrint = () => {
@@ -54,15 +60,35 @@ export default function AdminQRPage() {
     link.click();
   };
 
+  const rowsList = AUDITORIUM_SEATING_LAYOUT.map((r) => r.row);
+
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1.75rem',
+          flexWrap: 'wrap',
+          gap: '1rem',
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <h1
+            style={{
+              fontSize: '1.75rem',
+              fontWeight: 900,
+              color: '#fff',
+              margin: 0,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            }}
+          >
             Seat QR Code Generator
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-            Scan with your mobile phone camera to order directly from that seat
+            Accurate QR codes generated directly from the auditorium blueprint layout ({allActiveSeats.length} seats per screen)
           </p>
         </div>
 
@@ -78,74 +104,23 @@ export default function AdminQRPage() {
               fontWeight: 900,
               fontSize: '0.9rem',
               cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
               boxShadow: '0 4px 14px rgba(245, 158, 11, 0.4)',
             }}
           >
-            Print Stickers ({qrs.length})
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="6 9 6 2 18 2 18 9" />
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+              <rect x="6" y="14" width="12" height="8" />
+            </svg>
+            Print All QRs ({qrs.length})
           </button>
         )}
       </div>
 
-      {/* Mobile Scan Host Banner */}
-      <div
-        style={{
-          background: 'rgba(245, 158, 11, 0.1)',
-          border: '1px solid rgba(245, 158, 11, 0.35)',
-          borderRadius: 'var(--radius)',
-          padding: '1rem 1.25rem',
-          marginBottom: '1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1rem',
-        }}
-      >
-        <div>
-          <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            📱 Mobile Scanning Target URL
-          </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-            Using your computer's local Wi-Fi IP so phone camera scans open the app instantly.
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '1', maxWidth: '340px' }}>
-          <input
-            type="text"
-            value={scanHost}
-            onChange={(e) => setScanHost(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.55rem 0.75rem',
-              background: 'var(--bg-input)',
-              border: '1px solid var(--border-strong)',
-              borderRadius: 'var(--radius-xs)',
-              color: '#fff',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-            }}
-          />
-          <button
-            onClick={handleGenerate}
-            style={{
-              padding: '0.55rem 0.95rem',
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-strong)',
-              color: 'var(--gold)',
-              borderRadius: 'var(--radius-xs)',
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Apply
-          </button>
-        </div>
-      </div>
-
-      {/* Control Card */}
+      {/* Configuration Controls Bar */}
       <div
         style={{
           background: 'var(--bg-card)',
@@ -153,52 +128,104 @@ export default function AdminQRPage() {
           borderRadius: 'var(--radius)',
           padding: '1.25rem',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
           gap: '1rem',
           alignItems: 'flex-end',
           marginBottom: '2rem',
         }}
       >
         <div>
-          <label style={{ display: 'block', fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
+          <label
+            style={{
+              display: 'block',
+              fontSize: '0.75rem',
+              color: '#cbd5e1',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              marginBottom: '0.35rem',
+            }}
+          >
             Auditorium Screen
           </label>
           <select
             value={screen}
             onChange={(e) => setScreen(Number(e.target.value))}
-            style={{ width: '100%', padding: '0.65rem', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: '6px', color: '#fff' }}
+            style={{
+              width: '100%',
+              padding: '0.65rem',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: '#fff',
+            }}
           >
             {[1, 2, 3, 4, 5].map((s) => (
-              <option key={s} value={s}>Screen {s}</option>
+              <option key={s} value={s}>
+                Screen {s}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label style={{ display: 'block', fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-            Rows (A to Z)
+          <label
+            style={{
+              display: 'block',
+              fontSize: '0.75rem',
+              color: '#cbd5e1',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              marginBottom: '0.35rem',
+            }}
+          >
+            Row Filter
           </label>
-          <input
-            type="number"
-            min="1"
-            max="26"
-            value={rows}
-            onChange={(e) => setRows(Number(e.target.value))}
-            style={{ width: '100%', padding: '0.65rem', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: '6px', color: '#fff' }}
-          />
+          <select
+            value={filterRow}
+            onChange={(e) => setFilterRow(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.65rem',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: '#fff',
+            }}
+          >
+            <option value="ALL">All Rows (A to M) — {allActiveSeats.length} Seats</option>
+            {rowsList.map((r) => (
+              <option key={r} value={r}>
+                Row {r} only
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
-          <label style={{ display: 'block', fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-            Seats per Row
+          <label
+            style={{
+              display: 'block',
+              fontSize: '0.75rem',
+              color: '#cbd5e1',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              marginBottom: '0.35rem',
+            }}
+          >
+            Scanning Domain / IP
           </label>
           <input
-            type="number"
-            min="1"
-            max="30"
-            value={seatsPerRow}
-            onChange={(e) => setSeatsPerRow(Number(e.target.value))}
-            style={{ width: '100%', padding: '0.65rem', background: 'var(--bg-input)', border: '1px solid var(--border)', borderRadius: '6px', color: '#fff' }}
+            type="text"
+            value={scanHost}
+            onChange={(e) => setScanHost(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.65rem',
+              background: 'var(--bg-input)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: '#fff',
+            }}
           />
         </div>
 
@@ -219,7 +246,7 @@ export default function AdminQRPage() {
               boxShadow: '0 4px 14px rgba(245, 158, 11, 0.4)',
             }}
           >
-            {generating ? 'Generating...' : `Generate ${rows * seatsPerRow} Seat QRs`}
+            {generating ? 'Generating...' : `Generate ${qrs.length || allActiveSeats.length} QR Stickers`}
           </button>
         </div>
       </div>
@@ -257,7 +284,14 @@ export default function AdminQRPage() {
                 Screen {item.screen} · Seat <span style={{ color: 'var(--gold)' }}>{item.seat}</span>
               </div>
 
-              <div style={{ padding: '0.5rem', background: '#fff', borderRadius: '8px', boxShadow: '0 0 10px rgba(245, 158, 11, 0.2)' }}>
+              <div
+                style={{
+                  padding: '0.5rem',
+                  background: '#fff',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 10px rgba(245, 158, 11, 0.2)',
+                }}
+              >
                 <img
                   src={item.dataUrl}
                   alt={`Seat ${item.seat}`}
@@ -265,7 +299,14 @@ export default function AdminQRPage() {
                 />
               </div>
 
-              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', wordBreak: 'break-all', maxWidth: '160px' }}>
+              <div
+                style={{
+                  fontSize: '0.68rem',
+                  color: 'var(--text-muted)',
+                  wordBreak: 'break-all',
+                  maxWidth: '160px',
+                }}
+              >
                 {item.seat} · Screen {item.screen}
               </div>
 
@@ -286,6 +327,35 @@ export default function AdminQRPage() {
               >
                 Download PNG
               </button>
+
+              <a
+                href={item.menuUrl || item.orderUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  width: '100%',
+                  padding: '0.45rem',
+                  background: 'rgba(212, 175, 55, 0.12)',
+                  border: '1px solid rgba(212, 175, 55, 0.35)',
+                  color: 'var(--gold)',
+                  borderRadius: '4px',
+                  fontSize: '0.75rem',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem',
+                  fontWeight: 700,
+                  transition: 'var(--transition-fast)',
+                }}
+              >
+                <span>Preview</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
             </div>
           ))}
         </div>

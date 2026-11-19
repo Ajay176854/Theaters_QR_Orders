@@ -62,7 +62,7 @@ router.get('/:id', async (req, res, next) => {
 // PUT /api/theaters/:id - Update theater setup
 router.put('/:id', authenticate, authorize('admin'), async (req, res, next) => {
   try {
-    const { name, address, screens, rows, seatsPerRow, rowLabels } = req.body;
+    const { name, address, screens, rows, seatsPerRow, rowLabels, seatingLayout } = req.body;
     let theater;
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -81,6 +81,7 @@ router.put('/:id', authenticate, authorize('admin'), async (req, res, next) => {
     if (rows) theater.rows = rows;
     if (seatsPerRow) theater.seatsPerRow = seatsPerRow;
     if (rowLabels) theater.rowLabels = rowLabels;
+    if (seatingLayout !== undefined) theater.seatingLayout = seatingLayout;
 
     await theater.save();
     res.json({ message: 'Theater updated successfully', theater });

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import Header from '../components/Header';
 import MenuItem from '../components/MenuItem';
@@ -8,9 +8,22 @@ import { useCart } from '../context/CartContext';
 import '../styles/MenuPage.css';
 
 export default function MenuPage() {
-  const { theaterId } = useParams();
+  const { theaterId: paramTheaterId } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { totalItems, totalPrice } = useCart();
+
+  const queryTheaterId = searchParams.get('theaterId');
+  const queryScreen = searchParams.get('screen');
+  const querySeat = searchParams.get('seat');
+
+  const theaterId = paramTheaterId || queryTheaterId || sessionStorage.getItem('theaterId') || 'demo-theater';
+
+  useEffect(() => {
+    if (queryScreen) sessionStorage.setItem('screen', queryScreen);
+    if (querySeat) sessionStorage.setItem('seat', querySeat);
+    if (theaterId) sessionStorage.setItem('theaterId', theaterId);
+  }, [queryScreen, querySeat, theaterId]);
 
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
