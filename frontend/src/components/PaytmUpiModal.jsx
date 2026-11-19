@@ -124,6 +124,9 @@ export default function PaytmUpiModal({ paytmData, onSuccess, onClose }) {
           <span style={{ fontSize: '0.82rem', fontWeight: 900, letterSpacing: '0.1em', color: '#00baf2', textTransform: 'uppercase' }}>
             PAYTM 0% FEE INSTANT UPI
           </span>
+          <span style={{ fontSize: '0.62rem', background: 'rgba(0, 186, 242, 0.18)', border: '1px solid rgba(0, 186, 242, 0.6)', padding: '0.15rem 0.45rem', borderRadius: '4px', color: '#38bdf8', fontWeight: 800, letterSpacing: '0.05em' }}>
+            SANDBOX TEST
+          </span>
         </div>
 
         <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff' }}>

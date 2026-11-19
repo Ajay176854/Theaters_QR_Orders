@@ -58,6 +58,8 @@ const initiatePaytmUPI = async (req, res, next) => {
       token,
       amount,
       merchantVpa,
+      mid: process.env.PAYTM_MID || PAYTM_MID,
+      environment: process.env.PAYTM_ENVIRONMENT || 'staging',
       upiIntentUri,
       qrCodeImage,
       gpayLink: upiIntentUri,
