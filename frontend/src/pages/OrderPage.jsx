@@ -17,17 +17,29 @@ export default function OrderPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Target host for mobile scan — if on localhost, uses the local Wi-Fi LAN IP so phones connect directly
-  const hostBase =
+  // Target host for mobile scan — auto-detects current Wi-Fi LAN IP so phones connect directly
+  const [lanHost, setLanHost] = useState(
     typeof window !== 'undefined' &&
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? `http://10.130.230.48:${window.location.port || 5173}`
+      ? `http://10.190.5.47:${window.location.port || 5173}`
       : typeof window !== 'undefined'
       ? window.location.origin
-      : 'http://10.130.230.48:5173';
+      : 'http://10.190.5.47:5173'
+  );
 
-  const qrTargetUrl = `${hostBase}/${theaterId}?screen=${screen}&seat=${seat}`;
+  const qrTargetUrl = `${lanHost}/${theaterId}?screen=${screen}&seat=${seat}`;
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=8&data=${encodeURIComponent(qrTargetUrl)}`;
+
+  useEffect(() => {
+    // Dynamically fetch active Wi-Fi LAN IP from backend
+    api.get('/api/qr/network-info')
+      .then(({ data }) => {
+        if (data?.frontendUrl && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+          setLanHost(data.frontendUrl);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem('theaterId', theaterId);
@@ -131,6 +143,12 @@ export default function OrderPage() {
           <p className="order-page__qr-hint">
             Scan this QR code with your phone camera to order directly to <strong>Screen {screen} · Seat {seat}</strong>
           </p>
+          <div style={{ textAlign: 'center', marginTop: '0.45rem', fontSize: '0.74rem', color: '#94a3b8' }}>
+            <span>Direct Mobile Link: </span>
+            <a href={qrTargetUrl} target="_blank" rel="noreferrer" style={{ color: '#ffd84d', fontWeight: 700, textDecoration: 'underline' }}>
+              {qrTargetUrl}
+            </a>
+          </div>
         </div>
 
         <button className="order-page__cta" onClick={handleBrowseMenu}>

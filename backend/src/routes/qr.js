@@ -1,6 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const QRCode = require('qrcode');
+const getLanIp = require('../utils/getLanIp');
+
+/**
+ * Get current Wi-Fi LAN IP & Frontend URL for mobile phone connectivity
+ * GET /api/qr/network-info
+ */
+router.get('/network-info', (req, res) => {
+  const lanIp = getLanIp();
+  const port = 5173;
+  res.json({
+    lanIp,
+    frontendUrl: `http://${lanIp}:${port}`,
+    backendUrl: `http://${lanIp}:${process.env.PORT || 5000}`,
+  });
+});
 
 /**
  * Generate QR code data URL for a theater/screen/seat
@@ -14,8 +29,13 @@ router.get('/generate', async (req, res, next) => {
       return res.status(400).json({ error: 'theaterId, screen, and seat query params are required.' });
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const orderUrl = `${frontendUrl}/order?theaterId=${theaterId}&screen=${screen}&seat=${seat}`;
+    const lanIp = getLanIp();
+    const defaultFrontend = `http://${lanIp}:5173`;
+    const frontendUrl = (process.env.FRONTEND_URL && !process.env.FRONTEND_URL.includes('localhost'))
+      ? process.env.FRONTEND_URL
+      : defaultFrontend;
+
+    const orderUrl = `${frontendUrl}/${theaterId}?screen=${screen}&seat=${seat}`;
 
     const qrDataUrl = await QRCode.toDataURL(orderUrl, {
       width: 400,
@@ -51,8 +71,12 @@ router.get('/image', async (req, res, next) => {
       return res.status(400).json({ error: 'theaterId, screen, and seat query params are required.' });
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const orderUrl = `${frontendUrl}/order?theaterId=${theaterId}&screen=${screen}&seat=${seat}`;
+    const lanIp = getLanIp();
+    const defaultFrontend = `http://${lanIp}:5173`;
+    const frontendUrl = (process.env.FRONTEND_URL && !process.env.FRONTEND_URL.includes('localhost'))
+      ? process.env.FRONTEND_URL
+      : defaultFrontend;
+    const orderUrl = `${frontendUrl}/${theaterId}?screen=${screen}&seat=${seat}`;
 
     res.setHeader('Content-Type', 'image/png');
     await QRCode.toFileStream(res, orderUrl, {

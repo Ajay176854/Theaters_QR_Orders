@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import api from '../api/axios';
 
 export default function AdminQRPage() {
   const [screen, setScreen] = useState(1);
@@ -10,12 +11,23 @@ export default function AdminQRPage() {
   // Auto-detect whether we are on localhost and provide the Wi-Fi LAN IP for mobile scan
   const detectedHost =
     window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? `http://10.130.230.48:${window.location.port || 5173}`
+      ? `http://10.190.5.47:${window.location.port || 5173}`
       : window.location.origin;
 
   const [scanHost, setScanHost] = useState(detectedHost);
 
   const theaterId = 'demo-theater';
+
+  useEffect(() => {
+    api.get('/api/qr/network-info')
+      .then(({ data }) => {
+        if (data?.frontendUrl && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+          setScanHost(data.frontendUrl);
+          generateQRsForHost(data.frontendUrl, screen, rows, seatsPerRow);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const generateQRsForHost = (hostBase, scNum, rowCount, colCount) => {
     setGenerating(true);
